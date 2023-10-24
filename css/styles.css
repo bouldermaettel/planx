@@ -11,3 +11,20 @@ body {
 form-check.form-switch {
     width: '500px'
 }
+
+/* .sidebar body {
+    background-color: red;
+    color: blue 
+  }
+
+  input[type='checkbox']:checked {
+    content: '✔';
+    color: rgb(228, 53, 53);
+    background-color: rgba(224, 0, 7, 1);
+  }
+  
+  /*font color of sidebar menuItems*/
+.sidebar .sidebar-menu a{
+    background-color: blue;
+    color: black;
+   } */
