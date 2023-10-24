@@ -1,0 +1,13 @@
+body {
+    /* font-size: 3rem; */
+    background-color: rgb(151, 41, 59)
+  }
+  
+#studies {
+    font-size: large;
+    width: '800px'
+}
+
+form-check.form-switch {
+    width: '500px'
+}
