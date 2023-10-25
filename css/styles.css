@@ -28,3 +28,8 @@ form-check.form-switch {
     background-color: blue;
     color: black;
    } */
+
+.tab {
+  display: inline-block;
+  margin-left: 4em;
+}

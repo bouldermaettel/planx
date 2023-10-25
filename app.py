@@ -1,4 +1,6 @@
 from pathlib import Path
+from itables.sample_dfs import get_dict_of_test_dfs
+from itables.shiny import DT
 from htmltools import HTML, div, head_content
 import pandas as pd
 from shiny import ui, render, App, req, reactive
@@ -7,6 +9,8 @@ from config import sponser_types, study_phase
 
 df = pd.read_csv(Path(__file__).parent / "test_table.csv")
 css_file = Path(__file__).parent / "css" / "styles.css"
+countries = pd.read_json(Path(__file__).parent / "countries.json")
+# countries['action'] = ui.input_action_button(id, label, *, icon=None, width=None, **kwargs)
 
 app_ui = ui.page_fluid(
     shinyswatch.theme.darkly(),
@@ -43,7 +47,14 @@ app_ui = ui.page_fluid(
     
 
            ),
-    ui.panel_main(    
+    ui.panel_main(   
+        # Display the different tables in different tabs
+    # ui.navset_tab(
+    #     *[ui.nav(name, ui.HTML(DT(df))) for name, df in get_dict_of_test_dfs().items()]
+    # ),
+       ui.navset_tab(
+        *[ui.nav('test', ui.HTML(DT(countries)))]
+    ),
     ui.include_css(css_file),
     ui.output_table("test_table"),
     ui.output_ui("never_inspected"),
@@ -52,6 +63,8 @@ app_ui = ui.page_fluid(
     ),
         
 ))
+
+[print(df) for name, df in get_dict_of_test_dfs().items()]
 
 
 def server(input, output, session):
