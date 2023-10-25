@@ -5,49 +5,30 @@ from htmltools import HTML, div, head_content
 import pandas as pd
 from shiny import ui, render, App, req, reactive
 import shinyswatch.theme
-from config import sponser_types, study_phase
+# from config import sponser_types, study_phase
+from sidebar import sidebar
 
 df = pd.read_csv(Path(__file__).parent / "test_table.csv")
-css_file = Path(__file__).parent / "css" / "styles.css"
 countries = pd.read_json(Path(__file__).parent / "countries.json")
+test = pd.read_json(Path(__file__).parent / "new_test.json")
+css_file = Path(__file__).parent  / "css" / "styles.css"
+
 # countries['action'] = ui.input_action_button(id, label, *, icon=None, width=None, **kwargs)
 
 app_ui = ui.page_fluid(
     shinyswatch.theme.darkly(),
     ui.panel_title( "PlanX", "Window title"), 
     ui.layout_sidebar(
-    ui.panel_sidebar(
-        ui.include_css(css_file), 
-
-
-    ui.input_slider("n", "Gewichtung einstellen", min=0, max=20, value=20),
-    ui.input_date_range(id='date', label='Datum', start=None, end=None, min=None, max=None, format='yyyy-mm-dd', 
-                        startview='month', weekstart=0, language='en', separator=' to ', width=None, autoclose=True),
-    ui.row(ui.column(6,ui.HTML("<p>Sponser Typ:</p>")),
-           ui.column(6, ui.input_selectize("state", "",sponser_types, multiple=True))),
-    ui.row(ui.column(6,ui.HTML("<p>Studienphase:</p>")),
-        ui.column(6, ui.input_selectize("state", "",study_phase, multiple=True))),       
-    ui.row(ui.column(9,ui.HTML("<p>never inspected:</p>")),
-    ui.column(3, ui.input_switch(id="never_inspected", label="", value=False, width='400px'))),      
-    ui.row(ui.column(9,ui.HTML("<p>new sponser:</p>")),
-    ui.column(3, ui.input_switch("new_sponser", "", False))),   
-    ui.br(),
-    ui.HTML("<h4>Listen Hochladen</p>"),
-
-    ui.row(ui.column(4,ui.HTML("<h6>Studien SAP:</p>")),
-    ui.column(4, ui.input_action_button('sap', "Sudien SAP", icon=None, width=None)),
-    ui.column(4, ui.input_action_button('sap', "Sudien SAP", icon=None, width=None))), 
-    ui.HTML('<br>'),
-    ui.input_checkbox_group("studies","",{
-            "sap": ui.span("SAP Studien", style="color: #FF0000;"),
-            "ethik": ui.span("Ethikkommission", style="color: #00AA00;"),
-            "triggers": ui.span("Triggers aus SAP", style="color: #0000AA;"),
-            "abwesend": ui.span("Abwesenheiten", style="color: white;")
-        }, width='100%'), 
-    
-
-           ),
+    sidebar,
     ui.panel_main(   
+
+
+    [ui.row(ui.column(2,ui.HTML(f"<h3> {name} <br> <br> <h6>"),
+                      ui.input_action_button(f'see_details{index}', f'See details', icon="🤩 ")),
+                    #   ui.output_image("image")), 
+            ui.column(3,ui.HTML(DT(df, head_content=False)))) for index, (name, df) in enumerate(test.items())],
+
+
         # Display the different tables in different tabs
     # ui.navset_tab(
     #     *[ui.nav(name, ui.HTML(DT(df))) for name, df in get_dict_of_test_dfs().items()]
@@ -63,9 +44,6 @@ app_ui = ui.page_fluid(
     ),
         
 ))
-
-[print(df) for name, df in get_dict_of_test_dfs().items()]
-
 
 def server(input, output, session):
     @output
@@ -96,5 +74,13 @@ def server(input, output, session):
     @render.text
     def value():
         return str(studies.get()) # is a tuple
+    @output
+    @render.image
+    def image():
+        from pathlib import Path
+
+        dir = Path(__file__).resolve().parent
+        img: ImgData = {"src": str(dir / "PlanX.png"), "width": "100px"}
+        return img
 
 app = App(app_ui, server)
