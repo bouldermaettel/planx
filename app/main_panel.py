@@ -5,28 +5,37 @@ from itables.shiny import DT
 from htmltools import HTML, div, head_content
 import pandas as pd
 from shiny import ui, render, App, req, reactive
+from random import seed, randint
 
 df = pd.read_csv(Path(__file__).parent / "../test_table.csv")
 countries = pd.read_json(Path(__file__).parent / "../countries.json")
 test = pd.read_json(Path(__file__).parent / "../new_test.json")
 sponsors =  [name for index, (name, df) in enumerate(test.items())]
 dfs = [df.to_dict() for index, (name, df) in enumerate(test.items())]
+df_test = [df for index, (name, df) in enumerate(test.items())]
 dfs_string = [str(df) for df in dfs]
 print(type(dfs[0]))
 bools = [False]*len(sponsors)
 new_df = pd.DataFrame([sponsors, dfs_string, bools]).T
 print(new_df)
 # df_nested = pd.DataFrame(df, head_content=False) for index, (name, df) in enumerate(test.items())])))
-css_file = Path(__file__).parent  / "../css" / "styles.css"
 
-
-items = [exp.ui.accordion_panel(ui.HTML(f"Section {letter} <br> test"), ui.HTML(f"Some narrative for section {letter} <br> tets <br> tets <br> tets <br> tets <br> tets <br> tets <br> tets")) for letter in "ABCDE"]
 # # construct new  df
 df = pd.read_csv(Path(__file__).parent / "../test_table.csv")
 df['summary'] = df.apply(lambda x: f"Number of Studies: {x['Number of Studies']} <br> Type: {x['Type']} <br> Never inspected: {x['Never inspected']} <br> New Sponsor: {x['New Sponsor']}", axis=1)
 df['choose'] = [True]*len(df)
 df_new = df[['Sponser', 'summary', 'choose']]
 
+css_file = Path(__file__).parent  / "../css" / "styles.css"
+
+
+# items = [exp.ui.accordion_panel(ui.HTML(f"Section {letter} <br> test"), ui.HTML(f"Some narrative for section {letter} <br> tets <br> tets <br> tets <br> tets <br> tets <br> tets <br> tets")) for letter in "ABCDE"]
+seed(123)
+numbers = [randint(5, 20) for _ in range(10)]
+types = [randint(1, 5) for _ in range(10)]
+bools = [randint(1, 5) for _ in range(10)]
+items = [exp.ui.accordion_panel(ui.HTML(f"Number of studies: {number} <br> Type: Type {type} <br> Never inspected: {bool} <br> New Sponsor; {bool}"),
+                                ui.HTML(DT(df))) for number, type, bool, (name, df) in zip(numbers, types, bools, test.items())]
 
 main_panel =    ui.panel_main(  
                 ui.navset_tab( 
