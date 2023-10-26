@@ -5,10 +5,8 @@ css_file = Path(__file__).parent  / "../css" / "styles.css"
 
 
 
-sidebar =   ui.panel_sidebar(
+
             ui.include_css(css_file), 
-
-
             ui.input_slider("n", "Gewichtung einstellen", min=0, max=20, value=20),
             ui.input_date_range(id='date', label='Datum', start=None, end=None, min=None, max=None, format='yyyy-mm-dd', 
                                 startview='month', weekstart=0, language='en', separator=' to ', width=None, autoclose=True),
@@ -32,4 +30,4 @@ sidebar =   ui.panel_sidebar(
                     "ethik": ui.span("Ethikkommission", style="color: #00AA00;"),
                     "triggers": ui.span("Triggers aus SAP", style="color: #0000AA;"),
                     "abwesend": ui.span("Abwesenheiten", style="color: white;")
-                }, width='100%'))
+                }, width='100%')

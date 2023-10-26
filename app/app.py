@@ -1,11 +1,12 @@
 from pathlib import Path
 from itables.sample_dfs import get_dict_of_test_dfs
+import shiny.experimental as exp
 from itables.shiny import DT
 from htmltools import HTML, div, head_content
 import pandas as pd
 from shiny import ui, render, App, req, reactive
 import shinyswatch.theme
-from sidebar import sidebar
+from sidebar import sidebar_page
 from main_panel import main_panel
 
 test = pd.read_json(Path(__file__).parent / "../new_test.json")
@@ -27,14 +28,15 @@ df['summary'] = df.apply(lambda x: f"Number of Studies: {x['Number of Studies']}
 df_new = df[['Sponser', 'summary']]
 
 
-app_ui = ui.page_fluid(
-    shinyswatch.theme.darkly(),
-    ui.panel_title( "PlanX", "Window title"), 
-    ui.layout_sidebar(
-    sidebar,
+app_ui = exp.ui.page_sidebar(
     main_panel,
+    sidebar = sidebar_page,
+    
+    # shinyswatch.theme.darkly(),
+    title = ui.panel_title( "PlanX", "Window title"), )
+
     # ui.panel_main( ui.output_data_frame('original_results'))
-))
+
 
 def server(input, output, session):
     @output
