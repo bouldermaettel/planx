@@ -1,8 +1,8 @@
-body {
+/* body {
     /* font-size: 3rem; */
     background-color: rgb(75, 55, 58)
   }
-  
+   */
 #studies {
     font-size: large;
     width: '800px'
@@ -24,10 +24,10 @@ form-check.form-switch {
   }
   
   /*font color of sidebar menuItems*/
-.sidebar .sidebar-menu a{
+/* .sidebar .sidebar-menu a{
     background-color: blue;
     color: black;
-   } */
+   } */ */
 
 .tab {
   display: inline-block;

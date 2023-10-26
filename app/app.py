@@ -23,7 +23,7 @@ test_df = pd.DataFrame(dfs[0], index=[0]).T
 
 # # construct new  df
 df = pd.read_csv(Path(__file__).parent / "../test_table.csv")
-df['summary'] = df.apply(lambda x: f"Number of Studies: {x['Number of Studies']} <br> Type: {x['Type']} <br> Never inspected: {x['Never inspected']} <br> New Sponsor: {x['New Sponsor']}", axis=1)
+df['summary'] = df.apply(lambda x: f"Number of Studies: {x['Number of Studies']} {ui.br()} Type: {x['Type']} <br> Never inspected: {x['Never inspected']} <br> New Sponsor: {x['New Sponsor']})", axis=1)
 df_new = df[['Sponser', 'summary']]
 
 

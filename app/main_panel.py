@@ -31,11 +31,16 @@ css_file = Path(__file__).parent  / "../css" / "styles.css"
 
 # items = [exp.ui.accordion_panel(ui.HTML(f"Section {letter} <br> test"), ui.HTML(f"Some narrative for section {letter} <br> tets <br> tets <br> tets <br> tets <br> tets <br> tets <br> tets")) for letter in "ABCDE"]
 seed(123)
+sps = range(1,11)
 numbers = [randint(5, 20) for _ in range(10)]
 types = [randint(1, 5) for _ in range(10)]
 bools = [randint(1, 5) for _ in range(10)]
-items = [exp.ui.accordion_panel(ui.HTML(f"Number of studies: {number} <br> Type: Type {type} <br> Never inspected: {bool} <br> New Sponsor; {bool}"),
-                                ui.HTML(DT(df))) for number, type, bool, (name, df) in zip(numbers, types, bools, test.items())]
+items1 = [exp.ui.accordion_panel(ui.HTML(f"<h4> Sponser {sp} {ui.br()} <h6> Number of studies: {number} <br> Type: Type {type} <br> Never inspected: {bool} <br> New Sponsor; {bool}"),
+                                ui.HTML(DT(df))) for sp, number, type, bool, (name, df) in zip(sps, numbers, types, bools, test.items())]
+items2 = [exp.ui.accordion_panel(ui.HTML(f"<h4> Sponser {sp} {ui.br()} <h6> Number of studies:{number} <br> Type: Type {type} <br> Never inspected: {bool} <br> New Sponsor; {bool}"),
+                                ui.HTML(DT(df))) for sp, number, type, bool, (name, df) in zip(sps, numbers, types, bools, test.items())]
+items3 = [exp.ui.accordion_panel(ui.HTML(f"<h4> Sponser {sp} {ui.br()} <h6> {sum}"),
+                                ui.HTML(DT(countries))) for sp, sum, (name, df) in zip(sps,df['summary'].tolist(), test.items())]
 
 main_panel =    ui.panel_main(  
                 ui.navset_tab( 
@@ -55,13 +60,18 @@ main_panel =    ui.panel_main(
                     ui.nav('DT Test', ui.HTML(DT(df_new))),
 
 
-                    ui.nav('Accordion Test', exp.ui.accordion(*items, id="acc")),
+                    ui.nav('Accordion Test',
+                            ui.row(ui.column(5, exp.ui.accordion(*items1, id="acc", open=None)),
+                                   ui.column(5, exp.ui.accordion(*items2, id="acc2", open=None)) )),
+
+                    ui.nav('Accordion Test 2',
+                            ui.row( exp.ui.accordion(*items3, id="acc3", open=None))),
                     
                     
 
                     # ui.nav('DT tst3', ui.output_data_frame('original_results')),
                     # 
-                    ui.nav('DT tst3', ui.output_data_frame('original_results')))
+                    ui.nav('dataframe', ui.output_data_frame('original_results')))
                     
                     ),
 
