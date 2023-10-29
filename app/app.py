@@ -71,20 +71,20 @@ def server(input, output, session):
         return str(studies.get()) # is a tuple
     
 
-    inputs = [input['see_details0'], input['see_details1'],input['see_details2']]
 
-    [print(input) for input in inputs if input]
+    # not yet working!
+    for i in range(1,11):
+        @reactive.Effect
+        @reactive.event(input[f'sponsor_{i}'], ignore_init=True)
+        def _():
+            m = ui.modal(
+                f"The Sponser {i} was added",
+                title="Feedback",
+                easy_close=True,
+                footer=None,
+            )
+            ui.modal_show(m)
 
-    @reactive.Effect
-    @reactive.event(input['see_details0'])
-    def _():
-        m = ui.modal(
-            f"This is a message from {i}",
-            title="Modal dialog",
-            easy_close=True,
-            footer=None,
-        )
-        ui.modal_show(m)
     @output
     @render.image
     def image():

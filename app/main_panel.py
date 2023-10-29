@@ -42,7 +42,7 @@ items3 = [exp.ui.accordion_panel(ui.HTML(f"<h4> Sponser {sp} {ui.br()} <h6> {sum
 main_panel =    ui.panel_main(  
                 ui.navset_tab( 
                     ui.nav('Sponsors (test)',*[
-                            ui.row(ui.column(1, ui.input_switch(id= f"sponser_{sp}", label='add')), 
+                            ui.row(ui.column(1, ui.input_switch(id= f"sponsor_{sp}", label='add')), 
                                    ui.column(10, exp.ui.accordion(exp.ui.accordion_panel(ui.HTML(f"<h4> Sponser {sp} {ui.br()} <h6> {sum} "),
                                 ui.HTML( DT(countries))),open=False,),
                                    )) for sp, sum, (name, df) in zip(sps,df['summary'].tolist(), test.items())]),
