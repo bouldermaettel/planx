@@ -14,11 +14,9 @@ sponsors =  [name for index, (name, df) in enumerate(test.items())]
 dfs = [df.to_dict() for index, (name, df) in enumerate(test.items())]
 df_test = [df for index, (name, df) in enumerate(test.items())]
 dfs_string = [str(df) for df in dfs]
-print(type(dfs[0]))
 bools = [False]*len(sponsors)
 new_df = pd.DataFrame([sponsors, dfs_string, bools]).T
-print(new_df)
-# df_nested = pd.DataFrame(df, head_content=False) for index, (name, df) in enumerate(test.items())])))
+
 
 # # construct new  df
 df = pd.read_csv(Path(__file__).parent / "../test_table.csv")
@@ -27,7 +25,6 @@ df['choose'] = [True]*len(df)
 df_new = df[['Sponser', 'summary', 'choose']]
 
 css_file = Path(__file__).parent  / "../css" / "styles.css"
-
 
 # items = [exp.ui.accordion_panel(ui.HTML(f"Section {letter} <br> test"), ui.HTML(f"Some narrative for section {letter} <br> tets <br> tets <br> tets <br> tets <br> tets <br> tets <br> tets")) for letter in "ABCDE"]
 seed(123)
@@ -39,16 +36,35 @@ items1 = [exp.ui.accordion_panel(ui.HTML(f"<h4> Sponser {sp} {ui.br()} <h6> Numb
                                 ui.HTML(DT(df))) for sp, number, type, bool, (name, df) in zip(sps, numbers, types, bools, test.items())]
 items2 = [exp.ui.accordion_panel(ui.HTML(f"<h4> Sponser {sp} {ui.br()} <h6> Number of studies:{number} <br> Type: Type {type} <br> Never inspected: {bool} <br> New Sponsor; {bool}"),
                                 ui.HTML(DT(df))) for sp, number, type, bool, (name, df) in zip(sps, numbers, types, bools, test.items())]
-items3 = [exp.ui.accordion_panel(ui.HTML(f"<h4> Sponser {sp} {ui.br()} <h6> {sum}"),
-                                ui.HTML(DT(countries))) for sp, sum, (name, df) in zip(sps,df['summary'].tolist(), test.items())]
+items3 = [exp.ui.accordion_panel(ui.HTML(f"<h4> Sponser {sp} {ui.br()} <h6> {sum} ") ,
+                                ui.HTML( DT(countries))) for sp, sum, (name, df) in zip(sps,df['summary'].tolist(), test.items())]
 
 main_panel =    ui.panel_main(  
                 ui.navset_tab( 
-                    ui.nav('Sponsors',
-                        [ui.row(ui.column(2,ui.HTML(f"<h3> <a href=\"https://en.wikipedia.org/wiki/Aruba\">{name}</a> <br> <br> <h6>"),
-                            ui.input_checkbox(f'see_details{index}', f'See details')),
-                            # ui.output_image("image")), 
-                            ui.column(3,ui.HTML(DT(df, head_content=False)))) for index, (name, df) in enumerate(test.items())]),
+                    ui.nav('Sponsors (test)',*[
+                            ui.row(ui.column(1, ui.input_switch(id= f"sponser_{sp}", label='add')), 
+                                   ui.column(10, exp.ui.accordion(exp.ui.accordion_panel(ui.HTML(f"<h4> Sponser {sp} {ui.br()} <h6> {sum} "),
+                                ui.HTML( DT(countries))),open=False,),
+                                   )) for sp, sum, (name, df) in zip(sps,df['summary'].tolist(), test.items())]),
+
+                    ui.nav('Studies (test)',*[
+                            ui.row(ui.column(1, ui.input_switch(id= f"study_{sp}", label='add')), 
+                                   ui.column(10, exp.ui.accordion(exp.ui.accordion_panel(ui.HTML(f"<h4> Study {sp} {ui.br()} <h6> {sum} "),
+                                ui.HTML( DT(countries))),open=False,),
+                                   )) for sp, sum, (name, df) in zip(sps,df['summary'].tolist(), test.items())]),
+
+
+                    ui.nav('Centers (test)',*[
+                            ui.row(ui.column(1, ui.input_switch(id= f"center_{sp}", label='add')), 
+                                   ui.column(10, exp.ui.accordion(exp.ui.accordion_panel(ui.HTML(f"<h4> Centers {sp} {ui.br()} <h6> {sum} "),
+                                ui.HTML( DT(countries))),open=False,),
+                                   )) for sp, sum, (name, df) in zip(sps,df['summary'].tolist(), test.items())]),
+
+                    # ui.nav('Sponsors',
+                    #     [ui.row(ui.column(2,ui.HTML(f"<h3> <a href=\"https://en.wikipedia.org/wiki/Aruba\">{name}</a> <br> <br> <h6>"),
+                    #         ui.input_checkbox(f'see_details{index}', f'See details')),
+                    #         # ui.output_image("image")), 
+                    #         ui.column(3,ui.HTML(DT(df, head_content=False)))) for index, (name, df) in enumerate(test.items())]),
 
                     ui.nav('Centers',
                         [ui.row(ui.column(2,ui.HTML(f"<h3> <a href=\"https://en.wikipedia.org/wiki/Aruba\">{name}</a> <br> <br> <h6>"),
@@ -64,18 +80,26 @@ main_panel =    ui.panel_main(
                             ui.row(ui.column(5, exp.ui.accordion(*items1, id="acc", open=None)),
                                    ui.column(5, exp.ui.accordion(*items2, id="acc2", open=None)) )),
 
-                    ui.nav('Accordion Test 2',
-                            ui.row( exp.ui.accordion(*items3, id="acc3", open=None))),
-                    
+                    ui.nav('Accordion Test 2', ui.HTML(
+                            ui.row(ui.column(9, exp.ui.accordion(*items3, id="acc3", open=None)),
+                                   ui.column(2, ui.input_action_button(id= 'test', label='add'))))),
+
+                    # ui.nav('Accordion Test 3', ui.HTML(*[
+                    #         ui.row(ui.column(9, exp.ui.accordion(item, id="acc3", open=None)),
+                    #                ui.column(2, ui.input_action_button(id= sp, label='add'))) for item, sp in zip(items3, sps)])),
                     
 
-                    # ui.nav('DT tst3', ui.output_data_frame('original_results')),
-                    # 
+
+                    ui.nav('Accordion Test 4',*[
+                            ui.row(ui.column(9, exp.ui.accordion_panel(ui.HTML(f"<h4> Sponser {sp} {ui.br()} <h6> {sum} "),
+                                ui.HTML( DT(countries))),
+                                   ui.column(2, ui.input_action_button(id= f"sponser_{sp}", label='add')))) for sp, sum, (name, df) in zip(sps,df['summary'].tolist(), test.items())]),
+
+    
                     ui.nav('dataframe', ui.output_data_frame('original_results')))
                     
                     ),
 
-                    
                     # ui.include_css(css_file),)
                     # ui.output_table("test_table"),
                     # ui.output_ui("never_inspected"),

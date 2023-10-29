@@ -21,15 +21,26 @@ sidebar =   ui.panel_sidebar(
             ui.row(ui.column(9,ui.HTML("<p>new sponser:</p>")),
             ui.column(3, ui.input_switch("new_sponser", "", False))),   
             ui.br(),
-            ui.HTML("<h4>Listen Hochladen</p>"),
+            ui.row(ui.column(6, ui.input_selectize("state", "Sponser Filter",sponser_types, multiple=True)),
+                    ui.column(6, ui.input_selectize("state", "Study Filter",study_phase, multiple=True))),
 
-            ui.row(ui.column(4,ui.HTML("<h6>Studien SAP:</p>")),
-            ui.column(4, ui.input_action_button('sap', "Sudien SAP", icon=None, width=None)),
-            ui.column(4, ui.input_action_button('sap', "Sudien SAP", icon=None, width=None))), 
-            ui.HTML('<br>'),
-            ui.input_checkbox_group("studies","",{
-                    "sap": ui.span("SAP Studien", style="color: #FF0000;"),
-                    "ethik": ui.span("Ethikkommission", style="color: #00AA00;"),
-                    "triggers": ui.span("Triggers aus SAP", style="color: #0000AA;"),
-                    "abwesend": ui.span("Abwesenheiten", style="color: white;")
-                }, width='100%'))
+            ui.row(ui.column(6,ui.input_file("sap", "SAP Studien", accept=[".xlsx"], multiple=False)),
+                            #  ui.column(6,ui.input_checkbox("header1", "Header:", True))
+                             ),
+            ui.row(ui.column(6,ui.input_file("ethik", "Ethikkommission", accept=[".xlsx"], multiple=False)),
+                            #  ui.column(6,ui.input_checkbox("header1", "Header:", True))
+                             ),
+            ui.row(ui.column(6,ui.input_file("triggers", "Triggers aus SAP", accept=[".xlsx"], multiple=False)),
+                            #  ui.column(6,ui.input_checkbox("header1", "Header:", True))
+                             ),
+            ui.row(ui.column(6,ui.input_file("abwesenheiten", "Abwesenheiten", accept=[".xlsx"], multiple=False)),
+                            #  ui.column(6,ui.input_checkbox("header1", "Header:", True))
+                             ),
+            
+            # ui.input_checkbox_group("studies","",{
+            #         "sap": ui.span("SAP Studien", style="color: #FF0000;"),
+            #         "ethik": ui.span("Ethikkommission", style="color: #00AA00;"),
+            #         "triggers": ui.span("Triggers aus SAP", style="color: #0000AA;"),
+            #         "abwesend": ui.span("Abwesenheiten", style="color: darkgrey;")
+            #     }, width='100%'),
+           )

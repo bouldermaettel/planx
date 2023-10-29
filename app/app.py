@@ -28,7 +28,11 @@ df_new = df[['Sponser', 'summary']]
 
 
 app_ui = ui.page_fluid(
-    shinyswatch.theme.darkly(),
+    # shinyswatch.theme.darkly(),
+    # shinyswatch.theme.minty(),
+    shinyswatch.theme.sketchy(),
+    # shinyswatch.theme.superhero(),
+
     ui.panel_title( "PlanX", "Window title"), 
     ui.layout_sidebar(
     sidebar,
