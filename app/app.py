@@ -48,8 +48,8 @@ def server(input, output, session):
     
     @output
     @render.ui
-    def never_inspected():
-        return input.never_inspected()
+    def sponsor_1():
+        return input.sponsor_1()
     
     @output
     @render.ui
@@ -78,12 +78,14 @@ def server(input, output, session):
         @reactive.event(input[f'sponsor_{i}'], ignore_init=True)
         def _():
             m = ui.modal(
-                f"The Sponser {i} was added",
+                f"The Sponser was added!",
                 title="Feedback",
                 easy_close=True,
                 footer=None,
             )
             ui.modal_show(m)
+
+    print(input.sponsor_1)
 
     @output
     @render.image
